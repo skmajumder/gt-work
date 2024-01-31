@@ -1,14 +1,55 @@
 import { useForm } from "react-hook-form";
 
+const hazardOptions = [
+  "Overhead Work (Dropped Objects)",
+  "Flammable materials",
+  "Torqueing Operations",
+  "Wind, Weather, Sea",
+  "Toxic/Corrosive materials",
+  "Slippery/Wet surfaces",
+  "Electric Shock",
+  "Moving parts",
+  "Working at heights",
+  "Liquid/Gas under pressure",
+  "Rotating machinery",
+  "Hazardous Material",
+  "Spill Potential",
+  "Fire hazard",
+  "Restricted Movement",
+  "Danger of falling overboard",
+  "Lifting/Manual handling",
+  "Grit blasting",
+  "Flying particles",
+  "Pressure Washing Activities",
+  "HVAC Units",
+  "Sharp Edges",
+  "Crane Operations",
+  "Restricted Access",
+  "High/Low temperatures",
+  "Working over water",
+];
+
+const optionsPerColumn = 7;
+
 const WorkForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
 
   const onSubmit = (data) => {
+    if (Array.isArray(data.hazards) && data.hazards.includes("Others")) {
+      // * Replace "Others" with the entered value in the hazards array
+      const othersIndex = data.hazards.indexOf("Others");
+      if (othersIndex !== -1) {
+        data.hazards.splice(othersIndex, 1, data.otherReason);
+      }
+      // * Remove the separate otherReason property
+      delete data.otherReason;
+    }
     console.log(data);
     reset();
   };
@@ -178,7 +219,7 @@ const WorkForm = () => {
           </div>
         </div>
 
-        <div className="space-y-3 border-2 border-black p-2">
+        <div className="border-2 border-black p-2">
           <p>
             <strong>Joint site visit by safety and requester:</strong> The job
             preparation, precaution and conditions are satisfactory and safe.
@@ -225,6 +266,69 @@ const WorkForm = () => {
               </p>
             )}
           </div>
+        </div>
+
+        {/* Add similar checkbox input and label pairs for other options */}
+
+        <div className="border-2 border-black p-2">
+          <p className="mb-2">Associated Hazards: (Tick as appropriate)</p>
+          <div className="grid grid-cols-3">
+            {hazardOptions.map((option, index) => (
+              <div
+                key={option}
+                className={`mb-2 ${index % optionsPerColumn === 0 && "col-span-1"}`}
+              >
+                <input
+                  type="checkbox"
+                  id={option}
+                  {...register("hazards")}
+                  value={option}
+                  className="mr-1"
+                />
+                <label htmlFor={option} className="mr-4">
+                  {option}
+                </label>
+              </div>
+            ))}
+
+            <div key="others" className="col-span-1">
+              <input
+                type="checkbox"
+                id="others"
+                {...register("hazards")}
+                value="Others"
+                className="mr-1"
+              />
+              <label htmlFor="others">Others:</label>
+
+              {Array.isArray(watch("hazards")) &&
+                watch("hazards").includes("Others") && (
+                  <>
+                    <input
+                      type="text"
+                      id="otherReason"
+                      {...register("otherReason", { required: true })}
+                      className={`mt-1 w-full rounded-sm border p-2 ${
+                        errors.otherReason
+                          ? "border-red-500"
+                          : "border-slate-700"
+                      }`}
+                      placeholder="Specify other hazards"
+                    />
+                    {watch("otherReason") && (
+                      <p className="mt-1 text-sm">
+                        Entered value: {watch("otherReason")}
+                      </p>
+                    )}
+                  </>
+                )}
+            </div>
+          </div>
+          {errors.hazards && (
+            <p className="mt-1 text-red-500">
+              Please select at least one hazard
+            </p>
+          )}
         </div>
 
         <button type="submit" className="btn btn-active">
