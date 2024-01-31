@@ -29,6 +29,24 @@ const hazardOptions = [
   "Working over water",
 ];
 
+const ppeOptions = [
+  "Boiler suit",
+  "Safety Helmet",
+  "Air-purifying respirator",
+  "Asbestos handling PPE set",
+  "Safety Shoe",
+  "Safety goggles",
+  "Face mask",
+  "Low-voltage gloves",
+  "Gumboot",
+  "Gloves",
+  "Chemical Suit",
+  "Medium voltage gloves",
+  "Full body harness",
+  "Ear Plug",
+  "Ear Muff",
+];
+
 const optionsPerColumn = 7;
 
 const WorkForm = () => {
@@ -36,7 +54,6 @@ const WorkForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     watch,
   } = useForm();
 
@@ -50,8 +67,19 @@ const WorkForm = () => {
       // * Remove the separate otherReason property
       delete data.otherReason;
     }
+
+    if (Array.isArray(data.ppe) && data.ppe.includes("Others")) {
+      // * Replace "Others" with the entered value in the ppe array
+      const othersIndex = data.ppe.indexOf("Others");
+      if (othersIndex !== -1) {
+        data.ppe.splice(othersIndex, 1, data.otherPPE);
+      }
+      // * Remove the separate otherPPE property
+      delete data.otherPPE;
+    }
     console.log(data);
-    reset();
+
+    // reset();
   };
 
   return (
@@ -268,10 +296,10 @@ const WorkForm = () => {
           </div>
         </div>
 
-        {/* Add similar checkbox input and label pairs for other options */}
-
         <div className="border-2 border-black p-2">
-          <p className="mb-2">Associated Hazards: (Tick as appropriate)</p>
+          <label htmlFor="hazards" className="mb-2 block">
+            Associated Hazards: (Tick as appropriate)
+          </label>
           <div className="grid grid-cols-3">
             {hazardOptions.map((option, index) => (
               <div
@@ -327,6 +355,68 @@ const WorkForm = () => {
           {errors.hazards && (
             <p className="mt-1 text-red-500">
               Please select at least one hazard
+            </p>
+          )}
+        </div>
+
+        <div className="border-2 border-black p-2">
+          <label htmlFor="ppe" className="mb-2 block">
+            Required PPE: (Tick as required)
+          </label>
+          <div className="grid grid-cols-3">
+            {ppeOptions.map((option, index) => (
+              <div
+                key={option}
+                className={`mb-2 ${index % optionsPerColumn === 0 && "col-span-1"}`}
+              >
+                <input
+                  type="checkbox"
+                  id={option}
+                  {...register("ppe")}
+                  value={option}
+                  className="mr-1"
+                />
+                <label htmlFor={option} className="mr-4">
+                  {option}
+                </label>
+              </div>
+            ))}
+
+            <div key="othersPPE" className="col-span-1">
+              <input
+                type="checkbox"
+                id="othersPPE"
+                {...register("ppe")}
+                value="Others"
+                className="mr-1"
+              />
+              <label htmlFor="othersPPE">Others:</label>
+
+              {Array.isArray(watch("ppe")) &&
+                watch("ppe").includes("Others") && (
+                  <>
+                    <input
+                      type="text"
+                      id="otherPPE"
+                      {...register("otherPPE", { required: true })}
+                      className={`mt-1 w-full rounded-sm border p-2 ${
+                        errors.otherPPE ? "border-red-500" : "border-slate-700"
+                      }`}
+                      placeholder="Specify other PPE"
+                    />
+
+                    {watch("otherPPE") && (
+                      <p className="mt-1 text-sm">
+                        Entered value: {watch("otherPPE")}
+                      </p>
+                    )}
+                  </>
+                )}
+            </div>
+          </div>
+          {errors.ppe && (
+            <p className="mt-1 text-red-500">
+              Please select at least one required PPE
             </p>
           )}
         </div>
