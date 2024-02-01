@@ -1,10 +1,14 @@
-import WorkForm from "./features/WorkForm";
-import "./App.css"
+import './App.css';
+import NavBar from './ui/NavBar';
+import { Outlet } from 'react-router-dom';
 
 const App = () => {
   return (
     <>
-      <WorkForm />
+      <header>
+        <NavBar />
+      </header>
+      <Outlet />
     </>
   );
 };
