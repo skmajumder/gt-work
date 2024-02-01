@@ -62,6 +62,85 @@ app.get("/users", async function (req, res) {
   }
 });
 
+// * A post request to submit the form data
+app.post("/submit-form", async function (req, res) {
+  const formData = req.body;
+
+  // * Extract values from formData in the correct order
+  const values = [
+    formData.uploadDate,
+    formData.location,
+    formData.permitNo,
+    formData.loto,
+    formData.nameDesignation,
+    formData.signature_filename,
+    formData.permit_date,
+    formData.permit_time,
+    formData.workDescription,
+    formData.safetyRequester,
+    formData.hazards.join(", "), // * hazards is an array
+    formData.ppe.join(", "), // * ppe is an array
+    formData.permitIssuing,
+    formData.permitIssuingSignature_filename,
+    formData.permitValidity,
+    formData.permitIssuingDate,
+    formData.permitAccepting,
+    formData.permitAcceptingSignature_filename,
+    formData.permitTimeStart,
+    formData.permitTimeEnd,
+    formData.extendedPermitValidity,
+    formData.extendedPermitDate,
+    formData.extendedPermitTimeStart,
+    formData.extendedPermitTimeEnd,
+    formData.extendedPermitIssuing,
+    formData.extendedPermitIssuingSignature_filename,
+    formData.extendedPermitAccepting,
+    formData.extendedPermitSignature_filename,
+    formData.permitCloserName,
+    formData.permitCloserSignature_filename,
+    formData.permitClosingAccepting,
+    formData.permitClosingAcceptingSignature_filename,
+  ];
+
+  // * SQL query to insert data into the 'form_data' table
+  const sql = `
+    INSERT INTO form_data (
+      uploadDate, location, permitNo, loto, nameDesignation, signature_filename,
+      permit_date, permit_time, workDescription, safetyRequester, hazards, ppe,
+      permitIssuing, permitIssuingSignature_filename, permitValidity, permitIssuingDate,
+      permitAccepting, permitAcceptingSignature_filename, permitTimeStart, permitTimeEnd,
+      extendedPermitValidity, extendedPermitDate, extendedPermitTimeStart,
+      extendedPermitTimeEnd, extendedPermitIssuing, extendedPermitIssuingSignature_filename,
+      extendedPermitAccepting, extendedPermitSignature_filename, permitCloserName,
+      permitCloserSignature_filename, permitClosingAccepting,
+      permitClosingAcceptingSignature_filename
+    ) VALUES (
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+      ?, ?, ?, ?, ?, ?, ?
+    )
+  `;
+
+  try {
+    // * Execute the query asynchronously
+    const result = await new Promise((resolve, reject) => {
+      db.query(sql, values, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+
+    // * Send the response to the client with status code 200
+    res.status(200).json({ success: true, insertId: result.insertId });
+  } catch (err) {
+    // * An error occurred
+    console.error("Error executing query:", err);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
+});
+
 app.get("/", function (req, res, next) {
   res.json({ msg: "Express server running" });
 });
