@@ -1,50 +1,50 @@
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
 const hazardOptions = [
-  "Overhead Work (Dropped Objects)",
-  "Flammable materials",
-  "Torqueing Operations",
-  "Wind, Weather, Sea",
-  "Toxic/Corrosive materials",
-  "Slippery/Wet surfaces",
-  "Electric Shock",
-  "Moving parts",
-  "Working at heights",
-  "Liquid/Gas under pressure",
-  "Rotating machinery",
-  "Hazardous Material",
-  "Spill Potential",
-  "Fire hazard",
-  "Restricted Movement",
-  "Danger of falling overboard",
-  "Lifting/Manual handling",
-  "Grit blasting",
-  "Flying particles",
-  "Pressure Washing Activities",
-  "HVAC Units",
-  "Sharp Edges",
-  "Crane Operations",
-  "Restricted Access",
-  "High/Low temperatures",
-  "Working over water",
+  'Overhead Work (Dropped Objects)',
+  'Flammable materials',
+  'Torqueing Operations',
+  'Wind, Weather, Sea',
+  'Toxic/Corrosive materials',
+  'Slippery/Wet surfaces',
+  'Electric Shock',
+  'Moving parts',
+  'Working at heights',
+  'Liquid/Gas under pressure',
+  'Rotating machinery',
+  'Hazardous Material',
+  'Spill Potential',
+  'Fire hazard',
+  'Restricted Movement',
+  'Danger of falling overboard',
+  'Lifting/Manual handling',
+  'Grit blasting',
+  'Flying particles',
+  'Pressure Washing Activities',
+  'HVAC Units',
+  'Sharp Edges',
+  'Crane Operations',
+  'Restricted Access',
+  'High/Low temperatures',
+  'Working over water',
 ];
 
 const ppeOptions = [
-  "Boiler suit",
-  "Safety Helmet",
-  "Air-purifying respirator",
-  "Asbestos handling PPE set",
-  "Safety Shoe",
-  "Safety goggles",
-  "Face mask",
-  "Low-voltage gloves",
-  "Gumboot",
-  "Gloves",
-  "Chemical Suit",
-  "Medium voltage gloves",
-  "Full body harness",
-  "Ear Plug",
-  "Ear Muff",
+  'Boiler suit',
+  'Safety Helmet',
+  'Air-purifying respirator',
+  'Asbestos handling PPE set',
+  'Safety Shoe',
+  'Safety goggles',
+  'Face mask',
+  'Low-voltage gloves',
+  'Gumboot',
+  'Gloves',
+  'Chemical Suit',
+  'Medium voltage gloves',
+  'Full body harness',
+  'Ear Plug',
+  'Ear Muff',
 ];
 
 const optionsPerColumn = 7;
@@ -58,9 +58,9 @@ const WorkForm = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    if (Array.isArray(data.hazards) && data.hazards.includes("Others")) {
+    if (Array.isArray(data.hazards) && data.hazards.includes('Others')) {
       // * Replace "Others" with the entered value in the hazards array
-      const othersIndex = data.hazards.indexOf("Others");
+      const othersIndex = data.hazards.indexOf('Others');
       if (othersIndex !== -1) {
         data.hazards.splice(othersIndex, 1, data.otherReason);
       }
@@ -68,9 +68,9 @@ const WorkForm = () => {
       delete data.otherReason;
     }
 
-    if (Array.isArray(data.ppe) && data.ppe.includes("Others")) {
+    if (Array.isArray(data.ppe) && data.ppe.includes('Others')) {
       // * Replace "Others" with the entered value in the ppe array
-      const othersIndex = data.ppe.indexOf("Others");
+      const othersIndex = data.ppe.indexOf('Others');
       if (othersIndex !== -1) {
         data.ppe.splice(othersIndex, 1, data.otherPPE);
       }
@@ -88,7 +88,7 @@ const WorkForm = () => {
         Kabir Steel Limited
       </h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+      <form onSubmit={handleSubmit(onSubmit)} className="mb-10 space-y-10">
         <div className="flex flex-row gap-4 border-2 border-black">
           <div className="basis-4/6 border-r-2 border-black p-3">
             <p className="text-center text-xl font-medium text-black">
@@ -108,9 +108,9 @@ const WorkForm = () => {
             <input
               type="text"
               id="location"
-              {...register("location", { required: true })}
+              {...register('location', { required: true })}
               className={`ml-2 rounded-sm border border-slate-700 ${
-                errors.location ? "border-red-500" : ""
+                errors.location ? 'border-red-500' : ''
               }`}
             />
             {errors.location && (
@@ -123,9 +123,9 @@ const WorkForm = () => {
               <input
                 type="text"
                 id="permit-no"
-                {...register("permitNo", { required: true })}
+                {...register('permitNo', { required: true })}
                 className={`ml-2 rounded-sm border border-slate-700 ${
-                  errors.permitNo ? "border-red-500" : ""
+                  errors.permitNo ? 'border-red-500' : ''
                 }`}
               />
               {errors.permitNo && (
@@ -140,7 +140,7 @@ const WorkForm = () => {
                 <input
                   type="radio"
                   value="Yes"
-                  {...register("loto", { required: true })}
+                  {...register('loto', { required: true })}
                   className="mr-1"
                 />
                 Yes
@@ -149,7 +149,7 @@ const WorkForm = () => {
                 <input
                   type="radio"
                   value="No"
-                  {...register("loto", { required: true })}
+                  {...register('loto', { required: true })}
                   className="mr-1"
                 />
                 No
@@ -163,18 +163,16 @@ const WorkForm = () => {
         </div>
 
         <div className="flex flex-col gap-4 border-2 border-black p-2">
-          <p className="mb-2 basis-full text-xl font-semibold">
-            Permit Request by
-          </p>
+          <p className="mb-2 basis-full font-semibold">Permit Request by</p>
           <div className="flex flex-row items-center justify-start gap-2">
             <div>
               <label htmlFor="name-designation">Name & Designation:</label>
               <input
                 type="text"
                 id="name-designation"
-                {...register("nameDesignation", { required: true })}
+                {...register('nameDesignation', { required: true })}
                 className={`ml-2 rounded-sm border border-slate-700 ${
-                  errors.nameDesignation ? "border-red-500" : ""
+                  errors.nameDesignation ? 'border-red-500' : ''
                 }`}
               />
               {errors.nameDesignation && (
@@ -190,8 +188,8 @@ const WorkForm = () => {
                 type="file"
                 id="signature"
                 accept="image/*"
-                {...register("signature", { required: true })}
-                className={`ml-2 ${errors.signature ? "border-red-500" : ""}`}
+                {...register('signature', { required: true })}
+                className={`ml-2 ${errors.signature ? 'border-red-500' : ''}`}
               />
               {errors.signature && (
                 <p className="mt-1 text-red-500">Signature is required</p>
@@ -203,9 +201,9 @@ const WorkForm = () => {
               <input
                 type="date"
                 id="date"
-                {...register("date", { required: true })}
+                {...register('date', { required: true })}
                 className={`ml-2 rounded-sm border border-slate-700 p-1 ${
-                  errors.date ? "border-red-500" : ""
+                  errors.date ? 'border-red-500' : ''
                 }`}
               />
               {errors.date && (
@@ -218,9 +216,9 @@ const WorkForm = () => {
               <input
                 type="time"
                 id="time"
-                {...register("time", { required: true })}
+                {...register('time', { required: true })}
                 className={`ml-2 rounded-sm border border-slate-700 p-1 ${
-                  errors.time ? "border-red-500" : "border-slate-700"
+                  errors.time ? 'border-red-500' : 'border-slate-700'
                 }`}
               />
               {errors.time && (
@@ -235,10 +233,10 @@ const WorkForm = () => {
             <label htmlFor="workDescription">Work Description:</label>
             <textarea
               id="workDescription"
-              {...register("workDescription", { required: true })}
+              {...register('workDescription', { required: true })}
               rows="4"
               className={`mt-1 w-full rounded-sm border border-black p-2 ${
-                errors.workDescription ? "border-red-500" : ""
+                errors.workDescription ? 'border-red-500' : ''
               }`}
             ></textarea>
             {errors.workDescription && (
@@ -248,7 +246,7 @@ const WorkForm = () => {
         </div>
 
         <div className="border-2 border-black p-2">
-          <p>
+          <p className="mb-2">
             <strong>Joint site visit by safety and requester:</strong> The job
             preparation, precaution and conditions are satisfactory and safe.
             The people who are going to carry job have been explained the
@@ -261,7 +259,7 @@ const WorkForm = () => {
                 <input
                   type="radio"
                   value="Yes"
-                  {...register("safetyRequester", { required: true })}
+                  {...register('safetyRequester', { required: true })}
                   className="mr-1"
                 />
                 Yes
@@ -271,7 +269,7 @@ const WorkForm = () => {
                 <input
                   type="radio"
                   value="No"
-                  {...register("safetyRequester", { required: true })}
+                  {...register('safetyRequester', { required: true })}
                   className="mr-1"
                 />
                 No
@@ -281,7 +279,7 @@ const WorkForm = () => {
                 <input
                   type="radio"
                   value="NA"
-                  {...register("safetyRequester", { required: true })}
+                  {...register('safetyRequester', { required: true })}
                   className="mr-1"
                 />
                 N/A
@@ -304,12 +302,12 @@ const WorkForm = () => {
             {hazardOptions.map((option, index) => (
               <div
                 key={option}
-                className={`mb-2 ${index % optionsPerColumn === 0 && "col-span-1"}`}
+                className={`mb-2 ${index % optionsPerColumn === 0 && 'col-span-1'}`}
               >
                 <input
                   type="checkbox"
                   id={option}
-                  {...register("hazards")}
+                  {...register('hazards')}
                   value={option}
                   className="mr-1"
                 />
@@ -323,29 +321,29 @@ const WorkForm = () => {
               <input
                 type="checkbox"
                 id="others"
-                {...register("hazards")}
+                {...register('hazards')}
                 value="Others"
                 className="mr-1"
               />
               <label htmlFor="others">Others:</label>
 
-              {Array.isArray(watch("hazards")) &&
-                watch("hazards").includes("Others") && (
+              {Array.isArray(watch('hazards')) &&
+                watch('hazards').includes('Others') && (
                   <>
                     <input
                       type="text"
                       id="otherReason"
-                      {...register("otherReason", { required: true })}
+                      {...register('otherReason', { required: true })}
                       className={`mt-1 w-full rounded-sm border p-2 ${
                         errors.otherReason
-                          ? "border-red-500"
-                          : "border-slate-700"
+                          ? 'border-red-500'
+                          : 'border-slate-700'
                       }`}
                       placeholder="Specify other hazards"
                     />
-                    {watch("otherReason") && (
+                    {watch('otherReason') && (
                       <p className="mt-1 text-sm">
-                        Entered value: {watch("otherReason")}
+                        Entered value: {watch('otherReason')}
                       </p>
                     )}
                   </>
@@ -367,12 +365,12 @@ const WorkForm = () => {
             {ppeOptions.map((option, index) => (
               <div
                 key={option}
-                className={`mb-2 ${index % optionsPerColumn === 0 && "col-span-1"}`}
+                className={`mb-2 ${index % optionsPerColumn === 0 && 'col-span-1'}`}
               >
                 <input
                   type="checkbox"
                   id={option}
-                  {...register("ppe")}
+                  {...register('ppe')}
                   value={option}
                   className="mr-1"
                 />
@@ -386,28 +384,28 @@ const WorkForm = () => {
               <input
                 type="checkbox"
                 id="othersPPE"
-                {...register("ppe")}
+                {...register('ppe')}
                 value="Others"
                 className="mr-1"
               />
               <label htmlFor="othersPPE">Others:</label>
 
-              {Array.isArray(watch("ppe")) &&
-                watch("ppe").includes("Others") && (
+              {Array.isArray(watch('ppe')) &&
+                watch('ppe').includes('Others') && (
                   <>
                     <input
                       type="text"
                       id="otherPPE"
-                      {...register("otherPPE", { required: true })}
+                      {...register('otherPPE', { required: true })}
                       className={`mt-1 w-full rounded-sm border p-2 ${
-                        errors.otherPPE ? "border-red-500" : "border-slate-700"
+                        errors.otherPPE ? 'border-red-500' : 'border-slate-700'
                       }`}
                       placeholder="Specify other PPE"
                     />
 
-                    {watch("otherPPE") && (
+                    {watch('otherPPE') && (
                       <p className="mt-1 text-sm">
-                        Entered value: {watch("otherPPE")}
+                        Entered value: {watch('otherPPE')}
                       </p>
                     )}
                   </>
@@ -420,6 +418,343 @@ const WorkForm = () => {
             </p>
           )}
         </div>
+
+        <p className="!-mt-0 font-semibold">
+          Prior to permitting the person(s) intending to perform cold work,
+          management are to verify that the person(s) are adequately trained.
+        </p>
+
+        <div className="flex flex-row gap-4 border-2 border-black p-2">
+          <div className="basis-1/2 space-y-4">
+            <p className="mb-2 basis-full font-semibold">
+              Person Issuing Permit
+            </p>
+            <div>
+              <label htmlFor="permit-issuing">Name & Designation:</label>
+              <input
+                type="text"
+                id="permit-issuing"
+                {...register('permitIssuing', { required: true })}
+                className={`ml-2 rounded-sm border border-slate-700 ${
+                  errors.permitIssuing ? 'border-red-500' : ''
+                }`}
+              />
+              {errors.permitIssuing && (
+                <p className="mt-1 text-red-500">
+                  Name & Designation is required
+                </p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="permit-signature">Signature:</label>
+              <input
+                type="file"
+                id="permit-signature"
+                accept="image/*"
+                {...register('permitIssuingSignature', { required: true })}
+                className={`ml-2 ${errors.signature ? 'border-red-500' : ''}`}
+              />
+              {errors.permitIssuingSignature && (
+                <p className="mt-1 text-red-500">Signature is required</p>
+              )}
+            </div>
+            <div className="flex items-center justify-between">
+              <div>
+                <label htmlFor="permit-validity">Permit Validity:</label>
+                <input
+                  type="number"
+                  id="permit-validity"
+                  placeholder="days"
+                  {...register('permitValidity', { required: true })}
+                  className={`ml-2 rounded-sm border border-slate-700 ${
+                    errors.permitValidity ? 'border-red-500' : ''
+                  }`}
+                />
+                {errors.permitValidity && (
+                  <p className="mt-1 text-red-500">
+                    Permit Validity is required
+                  </p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="permit-date">Date:</label>
+                <input
+                  type="date"
+                  id="permit-date"
+                  {...register('permitIssuingDate', { required: true })}
+                  className={`ml-2 rounded-sm border border-slate-700 p-1 ${
+                    errors.permitIssuingDate ? 'border-red-500' : ''
+                  }`}
+                />
+                {errors.permitIssuingDate && (
+                  <p className="mt-1 text-red-500">Date is required</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="basis-1/2 space-y-4">
+            <p className="mb-2 basis-full font-semibold">
+              Person Accepting Permit
+            </p>
+            <div>
+              <label htmlFor="permit-accepting">Name & Designation:</label>
+              <input
+                type="text"
+                id="permit-accepting"
+                {...register('permitAccepting', { required: true })}
+                className={`ml-2 rounded-sm border border-slate-700 ${
+                  errors.permitAccepting ? 'border-red-500' : ''
+                }`}
+              />
+              {errors.permitAccepting && (
+                <p className="mt-1 text-red-500">
+                  Name & Designation is required
+                </p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="permit-accepting-signature">Signature:</label>
+              <input
+                type="file"
+                id="permit-accepting-signature"
+                accept="image/*"
+                {...register('permitAcceptingSignature', { required: true })}
+                className={`ml-2 ${errors.signature ? 'border-red-500' : ''}`}
+              />
+              {errors.permitAcceptingSignature && (
+                <p className="mt-1 text-red-500">Signature is required</p>
+              )}
+            </div>
+            <div className="flex items-center justify-start gap-10">
+              <div>
+                <label htmlFor="permit-from">From:</label>
+                <input
+                  type="time"
+                  id="permit-from"
+                  {...register('permitTimeStart', { required: true })}
+                  className={`ml-2 rounded-sm border border-slate-700 p-1 ${
+                    errors.permitTimeStart ? 'border-red-500' : ''
+                  }`}
+                />
+                {errors.permitTimeStart && (
+                  <p className="mt-1 text-red-500">Start Time is required</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="permit-to">To:</label>
+                <input
+                  type="time"
+                  id="permit-to"
+                  {...register('permitTimeEnd', { required: true })}
+                  className={`ml-2 rounded-sm border border-slate-700 p-1 ${
+                    errors.permitTimeEnd ? 'border-red-500' : ''
+                  }`}
+                />
+                {errors.permitTimeEnd && (
+                  <p className="mt-1 text-red-500">End Time is required</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4 border-2 border-black p-2">
+          <p>
+            <span className="font-semibold">Extension of permit:</span> After
+            verification of working condition, if it is found compliant then the
+            validity of the permit could be extended.
+          </p>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <label htmlFor="extended-permit-validity">
+                Extended Permit Validity:
+              </label>
+              <input
+                type="number"
+                id="extended-permit-validity"
+                placeholder="days"
+                {...register('extendedPermitValidity', { required: false })}
+                className="ml-2 rounded-sm border border-slate-700"
+              />
+            </div>
+            <div>
+              <label htmlFor="extended-permit-date">Date:</label>
+              <input
+                type="date"
+                id="extended-permit-date"
+                {...register('extendedPermitDate', { required: false })}
+                className="ml-2 rounded-sm border border-slate-700 p-1"
+              />
+            </div>
+            <div>
+              <label htmlFor="extended-permit-from">From:</label>
+              <input
+                type="time"
+                id="extended-permit-from"
+                {...register('extendedPermitTimeStart', { required: false })}
+                className="ml-2 rounded-sm border border-slate-700 p-1"
+              />
+            </div>
+            <div>
+              <label htmlFor="extended-permit-to">To:</label>
+              <input
+                type="time"
+                id="extended-permit-to"
+                {...register('extendedPermitTimeStart', { required: true })}
+                className="ml-2 rounded-sm border border-slate-700 p-1"
+              />
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="basis-1/2 space-y-4">
+              <p className="mb-2 basis-full font-semibold">
+                Person Issuing Permit
+              </p>
+              <div>
+                <label htmlFor="extended-permit-issuing">
+                  Name & Designation:
+                </label>
+                <input
+                  type="text"
+                  id="extended-permit-issuing"
+                  {...register('extendedPermitIssuing', { required: false })}
+                  className="ml-2 rounded-sm border border-slate-700"
+                />
+              </div>
+              <div>
+                <label htmlFor="extended-permit-signature">Signature:</label>
+                <input
+                  type="file"
+                  id="extended-permit-signature"
+                  accept="image/*"
+                  {...register('extendedPermitIssuingSignature', {
+                    required: false,
+                  })}
+                  className="ml-2"
+                />
+              </div>
+            </div>
+            <div className="basis-1/2 space-y-4">
+              <p className="mb-2 basis-full font-semibold">
+                Person Accepting Permit
+              </p>
+              <div>
+                <label htmlFor="extended-permit-accepting">
+                  Name & Designation:
+                </label>
+                <input
+                  type="text"
+                  id="extended-permit-accepting"
+                  {...register('extendedPermitAccepting', { required: false })}
+                  className="ml-2 rounded-sm border border-slate-700"
+                />
+              </div>
+              <div>
+                <label htmlFor="extended-permit-signature">Signature:</label>
+                <input
+                  type="file"
+                  id="extended-permit-signature"
+                  accept="image/*"
+                  {...register('extendedPermitSignature', { required: false })}
+                  className="ml-2"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4 border-2 border-black p-2">
+          <p>
+            <span className="font-semibold">Closing of permit:</span> The work
+            for which this permit was issued is now completed, all workers have
+            been withdrawn, and all processes and equipment affected by the work
+            have been left in a safe, clean, orderly, and ready-for-service
+            condition.
+          </p>
+
+          <div className="flex items-center justify-between">
+            <div className="basis-1/2 space-y-4">
+              <p className="mb-2 basis-full font-semibold">
+                Person Closing Permit
+              </p>
+              <div>
+                <label htmlFor="closing-permit">Name & Designation:</label>
+                <input
+                  type="text"
+                  id="closing-permit"
+                  {...register('permitCloserName', { required: true })}
+                  className={`ml-2 rounded-sm border border-slate-700 ${
+                    errors.permitCloserName ? 'border-red-500' : ''
+                  }`}
+                />
+                {errors.permitCloserName && (
+                  <p className="mt-1 text-red-500">
+                    Name & Designation is required
+                  </p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="closing-permit-signature">Signature:</label>
+                <input
+                  type="file"
+                  id="closing-permit-signature"
+                  accept="image/*"
+                  {...register('permitCloserSignature', { required: true })}
+                  className={`ml-2 ${errors.permitCloserSignature ? 'border-red-500' : ''}`}
+                />
+                {errors.permitCloserSignature && (
+                  <p className="mt-1 text-red-500">Signature is required</p>
+                )}
+              </div>
+            </div>
+            <div className="basis-1/2 space-y-4">
+              <p className="mb-2 basis-full font-semibold">
+                Person Accepting Permit
+              </p>
+              <div>
+                <label htmlFor="closing-permit-accepting">
+                  Name & Designation:
+                </label>
+                <input
+                  type="text"
+                  id="closing-permit-accepting"
+                  {...register('permitClosingAccepting', { required: true })}
+                  className={`ml-2 rounded-sm border border-slate-700 ${
+                    errors.permitClosingAccepting ? 'border-red-500' : ''
+                  }`}
+                />
+                {errors.permitClosingAccepting && (
+                  <p className="mt-1 text-red-500">
+                    Name & Designation is required
+                  </p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="closing-permit-accepting-signature">
+                  Signature:
+                </label>
+                <input
+                  type="file"
+                  id="closing-permit-accepting-signature"
+                  accept="image/*"
+                  {...register('permitClosingAcceptingSignature', {
+                    required: true,
+                  })}
+                  className={`ml-2 ${errors.signature ? 'border-red-500' : ''}`}
+                />
+                {errors.permitClosingAcceptingSignature && (
+                  <p className="mt-1 text-red-500">Signature is required</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p className="font-semibold">
+          The duration/ Validity of this permit will be terminated if there is
+          any change of working condition or any emergency occur.
+        </p>
 
         <button type="submit" className="btn btn-active">
           Submit
