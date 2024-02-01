@@ -141,6 +141,28 @@ app.post("/submit-form", async function (req, res) {
   }
 });
 
+// Add this endpoint after your existing routes
+app.get("/report", async function (req, res) {
+  const query = "SELECT * FROM form_data ORDER BY id DESC LIMIT 1";
+
+  try {
+    const result = await new Promise((resolve, reject) => {
+      db.query(query, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+
+    res.status(200).json(result[0]);
+  } catch (err) {
+    console.error("Error executing query:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.get("/", function (req, res, next) {
   res.json({ msg: "Express server running" });
 });
