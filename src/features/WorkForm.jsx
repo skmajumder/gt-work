@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
 const hazardOptions = [
   'Overhead Work (Dropped Objects)',
@@ -55,9 +56,10 @@ const WorkForm = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (Array.isArray(data.hazards) && data.hazards.includes('Others')) {
       // * Replace "Others" with the entered value in the hazards array
       const othersIndex = data.hazards.indexOf('Others');
@@ -77,9 +79,82 @@ const WorkForm = () => {
       // * Remove the separate otherPPE property
       delete data.otherPPE;
     }
-    console.log(data);
 
-    // reset();
+    // * Create an object with the form data
+    const formData = {
+      uploadDate: data.uploadDate,
+      location: data.location,
+      permitNo: data.permitNo,
+      loto: data.loto,
+      nameDesignation: data.nameDesignation,
+      signature_filename: data.signature[0]?.name,
+      permit_date: data.date,
+      permit_time: data.time,
+      workDescription: data.workDescription,
+      safetyRequester: data.safetyRequester,
+      hazards: data.hazards,
+      ppe: data.ppe,
+      permitIssuing: data.permitIssuing,
+      permitIssuingSignature_filename: data.permitIssuingSignature[0]?.name,
+      permitValidity: data.permitValidity,
+      permitIssuingDate: data.permitIssuingDate,
+      permitAccepting: data.permitAccepting,
+      permitAcceptingSignature_filename: data.permitAcceptingSignature[0]?.name,
+      permitTimeStart: data.permitTimeStart,
+      permitTimeEnd: data.permitTimeEnd,
+      extendedPermitValidity: data.extendedPermitValidity,
+      extendedPermitDate: data.extendedPermitDate,
+      extendedPermitTimeStart: data.extendedPermitTimeStart,
+      extendedPermitTimeEnd: data.extendedPermitTimeEnd,
+      extendedPermitIssuing: data.extendedPermitIssuing,
+      extendedPermitIssuingSignature_filename:
+        data.extendedPermitIssuingSignature[0]?.name,
+      extendedPermitAccepting: data.extendedPermitAccepting,
+      extendedPermitSignature_filename: data.extendedPermitSignature[0]?.name,
+      permitCloserName: data.permitCloserName,
+      permitCloserSignature_filename: data.permitCloserSignature[0]?.name,
+      permitClosingAccepting: data.permitClosingAccepting,
+      permitClosingAcceptingSignature_filename:
+        data.permitClosingAcceptingSignature[0]?.name,
+    };
+
+    try {
+      const response = await fetch('http://localhost:8081/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const responseData = await response.json();
+
+      if (responseData.success) {
+        console.log(
+          'Form data submitted successfully. Insert ID:',
+          responseData.insertId,
+        );
+        Swal.fire({
+          title: 'Good job!',
+          text: 'You clicked the button!',
+          icon: 'success',
+        });
+        reset();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error submitting form data!',
+        });
+        console.error('Error submitting form data:', responseData.error);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Error submitting form data!',
+      });
+      console.error('Error submitting form data:', error.message);
+    }
   };
 
   return (
@@ -88,7 +163,11 @@ const WorkForm = () => {
         Kabir Steel Limited
       </h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="mb-10 space-y-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mb-10 space-y-10"
+        encType="multipart/form-data"
+      >
         <div className="flex flex-row gap-4 border-2 border-black">
           <div className="basis-4/6 border-r-2 border-black p-3">
             <p className="text-center text-xl font-medium text-black">
@@ -98,7 +177,21 @@ const WorkForm = () => {
           </div>
           <div className="basis-2/6 p-3">
             <p>Form No: IMS / F / 05-06</p>
-            <p>Rev. No. 3, Date: {new Date().toDateString()}</p>
+            <p>
+              <label htmlFor="upload-date">Rev. No. 3, Date::</label>
+              <input
+                type="text"
+                id="upload-date"
+                {...register('uploadDate', { required: true })}
+                value={new Date().toDateString()}
+                className={`ml-2 rounded-sm border-none ${
+                  errors.uploadDate ? 'border-red-500' : ''
+                }`}
+              />
+              {errors.uploadDate && (
+                <p className="mt-1 text-red-500">Date is required</p>
+              )}
+            </p>
           </div>
         </div>
 
@@ -519,7 +612,7 @@ const WorkForm = () => {
                 id="permit-accepting-signature"
                 accept="image/*"
                 {...register('permitAcceptingSignature', { required: true })}
-                className={`ml-2 ${errors.signature ? 'border-red-500' : ''}`}
+                className={`ml-2 ${errors.permitAcceptingSignature ? 'border-red-500' : ''}`}
               />
               {errors.permitAcceptingSignature && (
                 <p className="mt-1 text-red-500">Signature is required</p>
@@ -574,7 +667,7 @@ const WorkForm = () => {
                 type="number"
                 id="extended-permit-validity"
                 placeholder="days"
-                {...register('extendedPermitValidity', { required: false })}
+                {...register('extendedPermitValidity')}
                 className="ml-2 rounded-sm border border-slate-700"
               />
             </div>
@@ -583,7 +676,7 @@ const WorkForm = () => {
               <input
                 type="date"
                 id="extended-permit-date"
-                {...register('extendedPermitDate', { required: false })}
+                {...register('extendedPermitDate')}
                 className="ml-2 rounded-sm border border-slate-700 p-1"
               />
             </div>
@@ -592,7 +685,7 @@ const WorkForm = () => {
               <input
                 type="time"
                 id="extended-permit-from"
-                {...register('extendedPermitTimeStart', { required: false })}
+                {...register('extendedPermitTimeStart')}
                 className="ml-2 rounded-sm border border-slate-700 p-1"
               />
             </div>
@@ -601,7 +694,7 @@ const WorkForm = () => {
               <input
                 type="time"
                 id="extended-permit-to"
-                {...register('extendedPermitTimeStart', { required: true })}
+                {...register('extendedPermitTimeEnd')}
                 className="ml-2 rounded-sm border border-slate-700 p-1"
               />
             </div>
@@ -618,7 +711,7 @@ const WorkForm = () => {
                 <input
                   type="text"
                   id="extended-permit-issuing"
-                  {...register('extendedPermitIssuing', { required: false })}
+                  {...register('extendedPermitIssuing')}
                   className="ml-2 rounded-sm border border-slate-700"
                 />
               </div>
@@ -628,9 +721,7 @@ const WorkForm = () => {
                   type="file"
                   id="extended-permit-signature"
                   accept="image/*"
-                  {...register('extendedPermitIssuingSignature', {
-                    required: false,
-                  })}
+                  {...register('extendedPermitIssuingSignature')}
                   className="ml-2"
                 />
               </div>
@@ -646,7 +737,7 @@ const WorkForm = () => {
                 <input
                   type="text"
                   id="extended-permit-accepting"
-                  {...register('extendedPermitAccepting', { required: false })}
+                  {...register('extendedPermitAccepting')}
                   className="ml-2 rounded-sm border border-slate-700"
                 />
               </div>
@@ -656,7 +747,7 @@ const WorkForm = () => {
                   type="file"
                   id="extended-permit-signature"
                   accept="image/*"
-                  {...register('extendedPermitSignature', { required: false })}
+                  {...register('extendedPermitSignature')}
                   className="ml-2"
                 />
               </div>
