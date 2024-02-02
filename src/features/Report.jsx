@@ -76,7 +76,7 @@ const Report = () => {
               </p>
               <p>
                 <span className="font-semibold">Date:</span>{' '}
-                {new Date().toDateString()}
+                {new Date(reportData.uploadDate).toDateString()}
               </p>
             </div>
           </section>
@@ -119,7 +119,9 @@ const Report = () => {
               <div className="flex items-center justify-between divide-x-2 divide-black bg-slate-100 p-4 text-center text-black">
                 <div className="w-1/4">{reportData?.nameDesignation}</div>
                 <div className="w-1/4">{reportData?.signature_filename}</div>
-                <div className="w-1/4">{reportData?.permit_date}</div>
+                <div className="w-1/4">
+                  {new Date(reportData?.permit_date).toDateString()}
+                </div>
                 <div className="w-1/4">{reportData?.permit_time}</div>
               </div>
             </div>
@@ -227,7 +229,9 @@ const Report = () => {
                   {reportData?.permitIssuingSignature_filename}
                 </div>
                 <div className="w-1/4">{reportData?.permitValidity}</div>
-                <div className="w-1/4">{reportData?.permitIssuingDate}</div>
+                <div className="w-1/4">
+                  {new Date(reportData?.permitIssuingDate).toDateString()}
+                </div>
               </div>
             </div>
           </section>

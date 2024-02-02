@@ -50,6 +50,9 @@ const ppeOptions = [
 
 const optionsPerColumn = 7;
 
+const currentDate = new Date();
+const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+
 const WorkForm = () => {
   const {
     register,
@@ -135,7 +138,7 @@ const WorkForm = () => {
         );
         Swal.fire({
           title: 'Good job!',
-          text: 'You clicked the button!',
+          text: 'Data inserted to the DB successfully!',
           icon: 'success',
         });
         reset();
@@ -183,7 +186,7 @@ const WorkForm = () => {
                 type="text"
                 id="upload-date"
                 {...register('uploadDate', { required: true })}
-                value={new Date().toDateString()}
+                value={formattedDate}
                 className={`ml-2 rounded-sm border-none ${
                   errors.uploadDate ? 'border-red-500' : ''
                 }`}
