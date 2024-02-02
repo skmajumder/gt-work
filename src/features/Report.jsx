@@ -3,6 +3,9 @@ import * as XLSX from 'xlsx';
 
 const Report = () => {
   const [reportData, setReportData] = useState({});
+  const [fetchError, setFetchError] = useState(false);
+
+  console.log(reportData);
 
   useEffect(() => {
     fetchLastInsertedData();
@@ -11,10 +14,12 @@ const Report = () => {
   const fetchLastInsertedData = async () => {
     try {
       const response = await fetch('http://localhost:8081/report');
+      if (!response.ok) throw new Error('Error Fetching Report Data');
       const data = await response.json();
       setReportData(data);
     } catch (error) {
-      console.error('Error fetching last inserted data:', error);
+      setFetchError(true);
+      console.error('Error fetching report data:', error);
     }
   };
 
@@ -35,6 +40,19 @@ const Report = () => {
     link.download = fileName;
     link.click();
   };
+
+  if (fetchError) {
+    return (
+      <div className="container mb-8 px-10">
+        <h1 className="my-5 mb-6 text-center text-3xl font-medium text-black">
+          Error fetching report data
+        </h1>
+        <p className="text-center text-base font-semibold">
+          Check Database connection or internet connection to get report data.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mb-8 px-10">
